@@ -34,11 +34,11 @@ UserLogin=async(req,res)=>{
         const user=await User.findOne({username:username})
         if(!user) return res.status(401).send({message:'user not exist'});
         const validPassword=passwordHash.verify(password,user.password);
-        if(!validPassword)return res.status(404).send("Invalid password");
+        if(!validPassword)return res.status(404).send({message:"Invalid password"});
         const UserId = user._id;
-        const token = jwt.sign({id:UserId},userKey);//,{expiresIn:"10m"}
-       const result = {user , "adminToken":token}
-       return res.status(200).send({message:"admin login successfully",data:result})
+        const token = jwt.sign({id:UserId},userKey);   //,{expiresIn:"10m"}
+       const result = {user , "userToken":token}
+       return res.status(200).send({message:"user login successfully",data:result})
        
   
     }
